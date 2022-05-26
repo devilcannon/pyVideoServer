@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Video Bucle</title>
+
+</head>
+
+<body>
+	<video src="/static/v1.mp4" autoplay="true" controls="controls" id="videos" height="100%" width="100%"></video>
+	<script language="javascript">
+		setTimeout(function () {
+			window.location.reload(1);
+		}, 600000);
+	</script>
+	<script type="text/javascript">
+		let key = 0; // global
+		let videoSource = JSON.parse('{{ files | tojson }}');
+		const videoCount = videoSource.length;
+		console.log(videoCount);
+		const element = document.getElementById("videos");
+
+		function playVideo(videoNum) {
+			console.log('Current key: ' + key);
+			element.setAttribute("src", '/static/' + videoSource[videoNum]);
+			element.setAttribute("type", 'video/mp4');
+			element.autoplay = true;
+			element.load();
+			element.play();
+		}
+		document.getElementById('videos').addEventListener('ended', myFunctionHandle, false);
+		function myFunctionHandle() {
+			key++;
+			console.log(key);
+			if (key == videoCount) {
+				key = 0;
+				playVideo(key);
+			} else {
+				playVideo(key);
+			}
+		}
+	</script>
+</body>
+
+</html>
